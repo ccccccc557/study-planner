@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7e6ee">
+<title>Little by Little | 勉強管理</title>
+<style>
+:root{--pink:#c77fa0;--pale:#fff7fa;--ink:#594650;--muted:#9e8793;--line:#f0e0e8}
+*{box-sizing:border-box}body{margin:0;background:#fff9fb;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif}
+main{max-width:650px;margin:auto;padding:14px}
+.hero{background:linear-gradient(135deg,#f5d9e6,#fff0f5);padding:23px 19px;border-radius:22px;margin:4px 0 15px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:#93677d;font-weight:800}.hero h1{font-size:26px;line-height:1.35;margin:8px 0;color:#684b5b}.sub{font-size:12px;color:#936f7f}
+.datebar{display:flex;align-items:center;justify-content:space-between;gap:7px;margin:15px 0}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.nav{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 10px;color:#765568;font-size:12px}
+input[type=date]{min-width:0;width:145px;border:1px solid var(--line);border-radius:10px;padding:8px;background:white;color:var(--ink);font-size:12px}
+.progress{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;margin-bottom:17px}
+.progressrow{display:flex;justify-content:space-between;align-items:center;gap:12px}.progressrow b{font-size:14px}.muted{font-size:12px;color:var(--muted);margin-top:5px}.percent{font-size:30px;font-weight:800;color:var(--pink)}
+.track{height:8px;background:#f5e9ee;border-radius:99px;overflow:hidden;margin:12px 0 8px}.fill{height:100%;width:0;background:linear-gradient(90deg,#e9a9c6,#c77fa2);border-radius:99px;transition:width .2s}
+.stats{display:flex;gap:8px}.stat{flex:1;text-align:center;background:var(--pale);border-radius:10px;padding:10px 3px}.stat strong{display:block;font-size:18px;color:#8f6378}.stat span{font-size:10px;color:var(--muted)}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:19px 1px 10px}.sectionhead h2{font-size:16px;margin:0}.pill{background:#f8e7ef;border-radius:20px;padding:5px 9px;color:#9a6981;font-size:10px}
+.addbox{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}.fieldlabel{display:block;font-size:11px;color:#987b89;margin:0 0 6px;font-weight:700}
+.field{width:100%;border:1px solid #eee0e6;border-radius:10px;padding:11px;background:#fffafd;color:var(--ink);font-size:13px;outline-color:#dfa2bd}
+.formrow{display:flex;gap:8px;margin-bottom:10px}.formrow>div{flex:1;min-width:0}.primary{background:var(--pink);color:white;border:0;border-radius:11px;padding:12px 15px;font-size:13px;font-weight:700;width:100%}
+.secondary{background:#f9e9f0;color:#96647c;border:0;border-radius:10px;padding:10px 12px;font-size:12px}
+.notice{font-size:11px;color:#9a788a;line-height:1.7;margin-top:8px}
+.subject{background:white;border:1px solid var(--line);border-radius:15px;margin-bottom:10px;overflow:hidden}
+.subjecthead{display:flex;justify-content:space-between;align-items:center;padding:13px 13px 10px}.subjecttitle{font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px}.dot{width:9px;height:9px;border-radius:50%}.subjectcount{font-size:11px;color:#a48c98}
+.task{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-top:1px solid #f7edf1;font-size:13px;line-height:1.6}.task input{accent-color:var(--pink);width:18px;height:18px;flex-shrink:0;margin:2px 0 0}.tasktext{flex:1;min-width:0;overflow-wrap:anywhere}.task.done .tasktext{text-decoration:line-through;color:#b8a9b1}.del{color:#c3a5b3;background:transparent;border:0;font-size:18px;padding:0 3px}.empty{padding:19px 12px;text-align:center;color:#ae98a3;font-size:12px}
+.subjectadd{background:#fff7fa;border-top:1px solid #f6eaf0;padding:8px 12px}.tinyadd{color:#b17694;background:transparent;border:0;font-size:11px;padding:3px}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:15px}summary{font-size:13px;font-weight:700;color:#77566a;cursor:pointer}details p{font-size:11px;line-height:1.7;color:var(--muted)}
+.actions{display:flex;gap:8px;margin-top:14px}.actions button{flex:1}.footer{text-align:center;color:#b59aa8;font-size:10px;padding:17px 0 5px}
+@media(max-width:380px){main{padding:10px}.hero h1{font-size:23px}.percent{font-size:26px}.nav{padding:8px 7px}}
+</style>
+</head>
+<body><main>
+<header class="hero"><div class="eyebrow">♡ YOUR DAILY STUDY LOG</div><h1>Little by little,<br>you can do it. 🎀</h1><div class="sub">今日の一歩が、未来の自分につながる。</div></header>
+<div class="datebar"><button class="nav" id="prev">‹ 前の日</button><input id="day" type="date" aria-label="勉強する日"><button class="nav" id="next">次の日 ›</button></div>
+<section class="progress"><div class="progressrow"><div><b>Today's progress ✨</b><div class="muted" id="caption">まずは1つから始めよう！</div></div><div class="percent" id="percent">0%</div></div><div class="track"><div class="fill" id="fill"></div></div><div class="stats"><div class="stat"><strong id="total">0</strong><span>やること</span></div><div class="stat"><strong id="donecount">0</strong><span>完了 ♡</span></div><div class="stat"><strong id="leftcount">0</strong><span>残り</span></div></div></section>
+<div class="sectionhead"><h2>今日の勉強リスト</h2><span class="pill" id="subjectsummary">0/9 教科</span></div>
+<section class="addbox"><div class="formrow"><div><label class="fieldlabel" for="subject">教科</label><select class="field" id="subject"><option>論国</option><option>古典</option><option>数学</option><option>英C</option><option>論表</option><option>化学</option><option>生物</option><option>地理</option><option>公共</option></select></div><div><label class="fieldlabel" for="taskinput">勉強すること</label><input class="field" id="taskinput" placeholder="例：問題集 p.20〜25"></div></div><button class="primary" id="add">＋ 勉強タスクを追加</button><div class="notice">教科を選んで追加するだけ！終わったらチェックしよう。</div></section>
+<div id="list"></div>
+<details><summary>♡ まとめて予定を登録する</summary><p>1行に1つずつ「教科：勉強すること」と入力してな。</p><textarea id="bulk" class="field" rows="5" placeholder="数学：問題集 p.10〜15&#10;英C：単語20個覚える&#10;生物：プリント復習"></textarea><button class="primary" id="bulkadd" style="margin-top:9px">まとめて登録する ♡</button></details>
+<details><summary>♡ バックアップ・復元</summary><p>予定をJSONファイルとして保存できるよ。機種変更やブラウザのデータ削除に備えて、ときどきバックアップしてな。</p><div class="actions"><button class="secondary" id="export">バックアップを書き出す</button><button class="secondary" id="importbtn">バックアップを復元</button></div><input id="fileinput" type="file" accept="application/json,.json" hidden><div class="notice">復元すると、今のアプリ内データはバックアップの内容に置き換わるよ。</div></details>
+<div class="actions"><button class="secondary" id="clear">今日の予定を全削除</button><button class="secondary" id="today">今日に戻る ↺</button></div>
+<div class="footer">made with ♡ · one step at a time</div>
+</main>
+<script>
+(function(){
+"use strict";
+const subjects=["論国","古典","数学","英C","論表","化学","生物","地理","公共"];
+const colors=["#d995b4","#b69dd9","#88b6d5","#9db8e4","#dba3bb","#8fbdb0","#a5bd8e","#e2b27e","#b3a5d5"];
+const STORAGE_KEY="kokona_study_planner_v2";
+const day=document.getElementById("day"),list=document.getElementById("list");
+let data={};
+try{const saved=localStorage.getItem(STORAGE_KEY);if(saved)data=JSON.parse(saved);if(!data||typeof data!=="object"||Array.isArray(data))data={}}catch(e){data={}}
+const dateKey=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+day.value=dateKey(new Date());
+function tasks(){if(!Array.isArray(data[day.value]))data[day.value]=[];return data[day.value]}
+function persist(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));return true}catch(e){alert("保存できへんかったみたい。ブラウザの空き容量や設定を確認してな。");return false}}
+function save(){persist();render()}
+function addTask(s,t){t=t.trim();if(t)tasks().push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,8),s,t,done:false})}
+function render(){
+const arr=tasks(),total=arr.length,done=arr.filter(x=>x.done).length,p=total?Math.round(done/total*100):0;
+document.getElementById("total").textContent=total;document.getElementById("donecount").textContent=done;document.getElementById("leftcount").textContent=total-done;document.getElementById("percent").textContent=p+"%";document.getElementById("fill").style.width=p+"%";
+document.getElementById("caption").textContent=total===0?"まずは1つから始めよう！":p===100?"今日の予定、全部クリア！最高！ ♡":p>=70?"ゴールまでもう少し！えらい！":p>=30?"いい調子！そのまま進もう ✨":"自分のペースで1つずつ ♡";
+document.getElementById("subjectsummary").textContent=new Set(arr.map(x=>x.s)).size+"/9 教科";list.replaceChildren();
+subjects.forEach((s,i)=>{const its=arr.filter(x=>x.s===s),card=document.createElement("section");card.className="subject";
+const head=document.createElement("div");head.className="subjecthead";const title=document.createElement("div");title.className="subjecttitle";const dot=document.createElement("span");dot.className="dot";dot.style.background=colors[i];const name=document.createElement("span");name.textContent=s;title.append(dot,name);
+const count=document.createElement("span");count.className="subjectcount";count.textContent=its.filter(x=>x.done).length+"/"+its.length+" 完了";head.append(title,count);card.append(head);
+if(!its.length){const empty=document.createElement("div");empty.className="empty";empty.textContent="まだ予定なし ♡";card.append(empty)}
+its.forEach(x=>{const row=document.createElement("div");row.className="task"+(x.done?" done":"");const cb=document.createElement("input");cb.type="checkbox";cb.checked=!!x.done;cb.setAttribute("aria-label",x.t+" 完了");cb.addEventListener("change",()=>{x.done=cb.checked;save()});const txt=document.createElement("span");txt.className="tasktext";txt.textContent=x.t;const del=document.createElement("button");del.className="del";del.textContent="×";del.setAttribute("aria-label","タスクを削除");del.addEventListener("click",()=>{data[day.value]=tasks().filter(y=>y.id!==x.id);save()});row.append(cb,txt,del);card.append(row)});
+const foot=document.createElement("div");foot.className="subjectadd";const quick=document.createElement("button");quick.className="tinyadd";quick.textContent="＋ "+s+"の予定を追加";quick.addEventListener("click",()=>{document.getElementById("subject").value=s;document.getElementById("taskinput").focus();document.getElementById("taskinput").scrollIntoView({behavior:"smooth",block:"center"})});foot.append(quick);card.append(foot);list.append(card)});
+}
+document.getElementById("add").addEventListener("click",()=>{const inp=document.getElementById("taskinput");if(!inp.value.trim()){inp.focus();return}addTask(document.getElementById("subject").value,inp.value);inp.value="";save()});
+document.getElementById("taskinput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("add").click()}});
+document.getElementById("bulkadd").addEventListener("click",()=>{const box=document.getElementById("bulk"),lines=box.value.split(/\n/).map(x=>x.trim()).filter(Boolean);let n=0,unknown=[];lines.forEach(line=>{const m=line.match(/^([^：:]+)[：:]\s*(.+)$/);if(!m){unknown.push(line);return}const s=subjects.find(x=>x===m[1].trim());if(s){addTask(s,m[2]);n++}else unknown.push(line)});if(n){save();box.value=""}alert(n+"件登録したで！"+(unknown.length?"\n確認が必要な行：\n"+unknown.join("\n"):""))});
+day.addEventListener("change",render);function shift(n){const d=new Date(day.value+"T12:00:00");d.setDate(d.getDate()+n);day.value=dateKey(d);render()}
+document.getElementById("prev").addEventListener("click",()=>shift(-1));document.getElementById("next").addEventListener("click",()=>shift(1));document.getElementById("today").addEventListener("click",()=>{day.value=dateKey(new Date());render()});
+document.getElementById("clear").addEventListener("click",()=>{if(tasks().length&&confirm("この日の勉強予定を全部削除する？")){data[day.value]=[];save()}});
+document.getElementById("export").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="study-planner-backup-"+dateKey(new Date())+".json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+document.getElementById("importbtn").addEventListener("click",()=>document.getElementById("fileinput").click());
+document.getElementById("fileinput").addEventListener("change",async e=>{const f=e.target.files&&e.target.files[0];if(!f)return;try{const incoming=JSON.parse(await f.text());if(!incoming||typeof incoming!=="object"||Array.isArray(incoming))throw Error("invalid");for(const [d,arr] of Object.entries(incoming)){if(!/^\d{4}-\d{2}-\d{2}$/.test(d)||!Array.isArray(arr))throw Error("invalid");for(const x of arr)if(!x||!subjects.includes(x.s)||typeof x.t!=="string")throw Error("invalid")}if(confirm("今のデータをバックアップの内容に置き換える？")){data=incoming;save();alert("復元できたで！ ♡")}}catch(err){alert("このバックアップは読み込めなかったよ。正しいJSONファイルか確認してな。")}e.target.value=""});
+persist();render();
+})();
+</script></body></html>
